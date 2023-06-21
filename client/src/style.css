@@ -1,0 +1,10 @@
+.loginPage {
+    background: url('images/xx.jpg');
+    
+}
+
+.employee_image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
