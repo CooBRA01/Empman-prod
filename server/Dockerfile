@@ -1,20 +1,20 @@
-# Use an official Node.js runtime as the base image
-FROM node:14-alpine
+# Use an official Node.js image as the base
+FROM node:14
 
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
 
-# Install the dependencies
-RUN npm install --production
+# Install dependencies
+RUN npm ci --only=production
 
-# Copy the source code to the container
+# Copy the rest of the application code to the working directory
 COPY . .
 
-# Expose the container port
+# Expose the desired port (e.g., 3001)
 EXPOSE 3001
 
-# Define the command to start the application
-CMD ["npm", "start"]
+# Set the command to run the API
+CMD ["node", "server.js"]

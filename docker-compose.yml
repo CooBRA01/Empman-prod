@@ -1,47 +1,41 @@
-version: "3.9"
+version: '3.8'
+
 services:
-  client:
+  react:
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      - '5173:5173'
     volumes:
-      - ./client:/app
-    networks:
-      - frontend
-      - backend
-    depends_on:
-      - server
+      - ./react-app:/app
+      - /app/node_modules
 
-  server:
+  api:
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
-    volumes:
-      - ./server:/app
-    networks:
-      - backend
+      - '3001:3001'
     depends_on:
       - db
+    volumes:
+      - ./api:/app
+      - /app/node_modules
 
   db:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=signup
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_mysql_user
+      MYSQL_PASSWORD: your_mysql_password
     ports:
-      - "3306:3306"
-    networks:
-      - backend
+      - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
 
-networks:
-  frontend:
-  backend:
-
 volumes:
   mysql-data:
+  react-app:
+  api:
