@@ -16,7 +16,7 @@ function Login() {
  
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post('http://localhost:3001/login', values)
+        axios.post('http://api:3001/login', values)
             .then(res => {
                 if (res.data.status === 'ok') {
                    navigation('/');

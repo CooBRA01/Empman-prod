@@ -22,7 +22,7 @@ function AddEmployee() {
 		formdata.append("address", data.address);
 		formdata.append("salary", data.salary);
 		formdata.append("image", data.image);
-		axios.post('http://localhost:3001/create', formdata)
+		axios.post('http://api:3001/create', formdata)
 		.then(res => {
 			navigate('/employee')
 		})

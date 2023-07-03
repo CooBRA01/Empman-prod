@@ -10,7 +10,6 @@ import cookieParser from 'cookie-parser'
 const app = express();
 app.use(cors(
     {
-        origin: 'http://localhost:5173',
         methods: ["POST","GET","PUT","DELETE"],
         credentials: true
     }
@@ -22,11 +21,18 @@ app.use(cookieParser())
 
 
 
-const db = mysql.createConnection({
+/*const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
     database: 'signup'
+});*/
+
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 const storage = multer.diskStorage({

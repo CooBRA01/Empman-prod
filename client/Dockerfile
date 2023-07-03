@@ -13,11 +13,13 @@ RUN npm ci --only=production
 # Copy the rest of the application code to the working directory
 COPY . .
 
+RUN npm install -D vite
+
 # Build the React.js app using Vite
 RUN npm run build
 
 # Use a lightweight HTTP server to serve the built app
-FROM node:14-slim
+FROM node:14
 
 # Set the working directory inside the container
 WORKDIR /app
