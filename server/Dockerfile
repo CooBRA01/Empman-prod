@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3001
 
 # Set the command to run the API
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

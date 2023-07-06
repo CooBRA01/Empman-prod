@@ -21,19 +21,13 @@ app.use(cookieParser())
 
 
 
-/*const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'signup'
-});*/
-
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: 'db',
+    user: 'root',
+    password: 'example',
+    database: 'signup'
 });
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
