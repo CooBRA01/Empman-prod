@@ -19,11 +19,15 @@ services:
       dockerfile: Dockerfile
     networks:
       - commonn
+    ports:
+      - '5900:5173'
 
   api:
     build:
       context: ./server
       dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
     depends_on:
       - db
     networks:
@@ -37,6 +41,10 @@ services:
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=signup
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./myss.sql:/docker-entrypoint-initdb.d/myss.sql
     networks:
       - commonn
 
