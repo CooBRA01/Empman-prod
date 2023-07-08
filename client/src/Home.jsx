@@ -7,17 +7,17 @@ function Home() {
   const [salary, setSalary] = useState()
 
   useEffect(() => {
-    axios.get('http://172.31.68.213:3001/adminCount')
+    axios.get('http://localhost:3001/adminCount')
 		.then(res => {
 			setAdminCount(res.data[0].admin)
 		}).catch(err => console.log(err));
 
-    /*axios.get('http://172.31.68.213:3001/employeeCount')
+    /*axios.get('http://localhost:3001/employeeCount')
 		.then(res => {
 			setEmployeeCount(res.data[0].employee)
 		}).catch(err => console.log(err));*/
 
-    axios.get('http://172.31.68.213:3001/employeeCount')
+    axios.get('http://localhost:3001/employeeCount')
   .then(res => {
     const cacheHeader = res.headers['x-cache'];
     if (cacheHeader === 'Redis') {
@@ -33,7 +33,7 @@ function Home() {
   .catch(err => console.log(err));
 
 
-    axios.get('http://172.31.68.213:3001/employeeSal')
+    axios.get('http://localhost:3001/employeeSal')
 		.then(res => {
 			setSalary(res.data[0].sumOfSalary)
 		}).catch(err => console.log(err));

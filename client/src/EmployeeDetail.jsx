@@ -9,7 +9,7 @@ function EmployeeDetail() {
     console.log(id);
     useEffect(()=> {
      // console.log("token",localStorage.getItem('token'));
-      axios.get('http://172.31.68.213:3001/get/'+id)
+      axios.get('http://localhost:3001/get/'+id)
       .then(res => {
            if(res.data.status === 'ok'){
             setEmployee(res.data.Result[0])
@@ -21,7 +21,7 @@ function EmployeeDetail() {
       .catch(err => console.log(err));
   },[])
     const handleLogout = () => {
-		axios.get('http://172.31.68.213:3001/logout')
+		axios.get('http://localhost:3001/logout')
 		.then(res => {
 			navigate('/start')
 		}).catch(err => console.log(err));
@@ -29,7 +29,7 @@ function EmployeeDetail() {
   return (
     <div>
         <div className='d-flex justify-content-center flex-column align-items-center mt-3'>
-            <img src={`http://172.31.68.213:3001/images/`+employee.image} alt="" className='empImg'/>
+            <img src={`http://localhost:3001/images/`+employee.image} alt="" className='empImg'/>
             <div className='d-flex align-items-center flex-column mt-5'>
                 <h3>Name: {employee.name}</h3>
                 <h3>Email: {employee.email}</h3>

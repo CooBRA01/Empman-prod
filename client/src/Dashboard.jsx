@@ -7,7 +7,7 @@ function Dashboard() {
     const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://3.238.120.214:3001/dashboard')
+        axios.get('http://localhost:3001/dashboard')
         .then(res => {
             if(res.data.status === 'ok') {
                 if(res.data.role === 'admin') {
@@ -26,7 +26,7 @@ function Dashboard() {
     },[])
 
     const handleLogout = () => {
-        axios.get('http://172.31.68.213:3001/logout')
+        axios.get('http://localhost:3001/logout')
         .then(res => {
             if(res.data.status === 'ok') {
                 navigate('/start')

@@ -19,7 +19,7 @@ function EmployeeLogin() {
       const handleSubmit = (event) => {
         event.preventDefault();
         
-        axios.post('http://172.31.68.213:3001/employeeLogin', values)
+        axios.post('http://localhost:3001/employeeLogin', values)
         .then(res => {
             
             if(res.data.status === 'ok'   ) {
@@ -37,7 +37,7 @@ function EmployeeLogin() {
    /* const handleSubmit = (event) => {
         event.preventDefault();
         
-        axios.post('http://172.31.68.213:3001/employeeLogin', values)
+        axios.post('http://localhost:3001/employeeLogin', values)
         .then(res => {
             if(res.data.status === 'ok' ) {
                 const id = res.data.id;
