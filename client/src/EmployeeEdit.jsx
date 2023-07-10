@@ -14,7 +14,7 @@ function EmployeeEdit() {
 	const {id} = useParams();
 
 	useEffect(()=> {
-		axios.get('http://localhost:3001/get/'+id)
+		axios.get('http://18.207.158.182:3001/get/'+id)
 		.then(res => {
 			setData({...data, name: res.data.Result[0].name,
 				email: res.data.Result[0].email,
@@ -27,7 +27,7 @@ function EmployeeEdit() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		axios.put('http://localhost:3001/update/'+id, data)
+		axios.put('http://18.207.158.182:3001/update/'+id, data)
 		.then(res => {
 			if(res.data.status === "ok") {
         navigate('/employee')			}

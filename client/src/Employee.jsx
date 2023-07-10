@@ -8,7 +8,7 @@ function Employee() {
   // ...
 
 useEffect(() => {
-  axios.get('http://localhost:3001/getEmployee')
+  axios.get('http://18.207.158.182:3001/getEmployee')
     .then(res => {
       if (res.data.status === "ok") {
         setData(res.data.Result);
@@ -23,7 +23,7 @@ useEffect(() => {
 
 
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3001/delete/'+id)
+    axios.delete('http://18.207.158.182:3001/delete/'+id)
     .then(res => {
       if(res.data.status === "ok") {
         window.location.reload(true);
@@ -57,7 +57,7 @@ useEffect(() => {
               return <tr key={index}>
                   <td>{employee.name}</td>
                   <td>{
-                    <img src={`http://localhost:3001/images/`+employee.image} alt="" className='employee_image'/>
+                    <img src={`http://18.207.158.182:3001/images/`+employee.image} alt="" className='employee_image'/>
                     }</td>
                   <td>{employee.email}</td>
                   <td>{employee.address}</td>
