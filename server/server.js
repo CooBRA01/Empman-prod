@@ -10,7 +10,8 @@ import cookieParser from 'cookie-parser'
 const app = express();
 app.use(cors(
     {
-        methods: ["POST","GET","PUT","DELETE"],
+        origin: 'http://18.207.158.182:5900',
+	methods: ["POST","GET","PUT","DELETE"],
         credentials: true
     }
 ));

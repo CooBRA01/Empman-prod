@@ -1,0 +1,44 @@
+- hosts: staging
+  tasks:
+    - name: Install Docker dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Copy Docker Compose file for staging
+      copy:
+        src: docker-compose-staging.yml
+        dest: /path/to/your/staging/directory/docker-compose.yml
+
+    - name: Start the application on staging
+      command: docker-compose -f /path/to/your/staging/directory/docker-compose.yml up -d
+      args:
+        chdir: /path/to/your/staging/directory/
+      become: yes
+

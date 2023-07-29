@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  react:
+    image: bkhedher/front:latest
+    networks:
+      - frontend
+    deploy:
+      replicas: 3
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+
+  api:
+    image: bkhedher/back:latest
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - '3001:3001'
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=signup
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./myss.sql:/docker-entrypoint-initdb.d/myss.sql
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+

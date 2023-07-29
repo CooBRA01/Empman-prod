@@ -1,0 +1,63 @@
+- hosts: production
+  tasks:
+    - name: Install Docker dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start and enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Copy Docker Compose file for production
+      copy:
+        src: docker-compose-production.yml
+        dest: /path/to/your/production/directory/docker-compose.yml
+
+    - name: Start the application on production
+      command: docker-compose -f /path/to/your/production/directory/docker-compose.yml up -d
+      args:
+        chdir: /path/to/your/production/directory/
+      become: yes
+
+    - name: Configure Nginx for the domain
+      template:
+        src: nginx.conf
+        dest: /etc/nginx/sites-available/ahla.duckdns.org
+      notify: Reload Nginx
+
+    - name: Enable Nginx configuration
+      file:
+        src: /etc/nginx/sites-available/ahla.duckdns.org
+        dest: /etc/nginx/sites-enabled/ahla.duckdns.org
+        state: link
+      notify: Reload Nginx
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
+
