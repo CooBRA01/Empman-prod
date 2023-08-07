@@ -1,23 +1,31 @@
 - hosts: production
   tasks:
-    - name: Install Docker dependencies
+    - name: Install aptitude
       apt:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
+        name: aptitude
+        state: latest
+        update_cache: true
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
 
     - name: Add Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
-    - name: Add Docker repository
+    - name: Add Docker Repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        repo: deb https://download.docker.com/linux/ubuntu jammy stable
         state: present
 
     - name: Install Docker
@@ -25,22 +33,27 @@
         name: docker-ce
         state: present
 
-    - name: Start and enable Docker
-      service:
-        name: docker
-        state: started
-        enabled: yes
+    - name: Configure Route 53 DNS entry
+      route53:
+        state: present
+        zone: ahla.duckdns.org
+        record: www
+        type: A
+        ttl: 3600
+        value: "{{ ansible_default_ipv4.address }}"
+        wait: yes      
 
     - name: Copy Docker Compose file for production
       copy:
         src: docker-compose-production.yml
-        dest: /path/to/your/production/directory/docker-compose.yml
+        dest: /app/docker-compose-production.yml
 
-    - name: Start the application on production
-      command: docker-compose -f /path/to/your/production/directory/docker-compose.yml up -d
-      args:
-        chdir: /path/to/your/production/directory/
-      become: yes
+    - name: Deploy stack from a compose file
+      docker_stack:
+        state: present
+        name: mystack
+        compose:
+          - /opt/docker-compose-production.yml
 
     - name: Configure Nginx for the domain
       template:
